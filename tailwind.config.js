@@ -9,9 +9,24 @@ module.exports = {
       colors: {
         'light-blue': colors.lightBlue,
         cyan: colors.cyan,
+        transparent: 'transparent',
+        current: 'currentColor',
+        black: colors.black,
+        white: colors.white,
+        gray: colors.trueGray,
+        indigo: colors.indigo,
+        red: colors.rose,
+        yellow: colors.amber,
+        pink: colors.pink,
+        green: {
+          light: '#d3ff89'
+        }, 
+        skyblue: {
+          DEFAULT: '#46cfea'
+        }
       },
     },
-    },
+  },
   variants: {
     extend: {},
   },
