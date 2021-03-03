@@ -1,26 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import logo from './Pokemonlogo.png';
 import './App.css';
 import axios from 'axios';
 import './Services/HelperClasses';
 import { capitalizeFirstLetter } from './Services/HelperClasses';
 
+const offsetConst = 32;
+const limit = 32;
+
 function App() {
   let [allPokemon, setAllPokemon] = useState([]);
-  let [pokemonCount, setPokemonCount] = useState(0);
+  // let [pokemonCount, setPokemonCount] = useState(0);
   let [offset, setOffset] = useState(0);
   let [currentPokemonList, setCurrentPokemonList] = useState([]);
   let [currentPokemonListDetail, setCurrentPokemonListDetail] = useState([]);
 
   useEffect(() => {
-    axios.get(`https://pokeapi.co/api/v2/pokemon`)
+    axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${0}`)
       .then(res => {
         setAllPokemon(res.data.results);
         setCurrentPokemonList(res.data.results);
-        setPokemonCount(res.data.count);
-        setOffset(20);
-      })
+        // setPokemonCount(res.data.count);
+        setOffset(offsetConst);
+      });
   }, []);
+
+  const handleScroll = useCallback(() => {
+    if (window.innerHeight + document.documentElement.scrollTop - 1000 !== document.documentElement.offsetHeight - 1000) return;
+    axios.get(`https://pokeapi.co/api/v2/pokemon/?limit=${limit}&offset=${offset}`)
+      .then(res => {
+        setAllPokemon(allPokemon.concat(res.data.results));
+        setCurrentPokemonList(res.data.results);
+        setOffset(offset + offsetConst);
+      })  
+    }, [allPokemon, offset]);
 
   useEffect(() => {
     (async function getPokemon() {
@@ -35,16 +48,6 @@ function App() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
-
-  function handleScroll() {
-    if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) return;
-    axios.get(`https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${offset}`)
-      .then(res => {
-        setAllPokemon(allPokemon.concat(res.data.results));
-        setCurrentPokemonList(res.data.results);
-        setOffset(offset + 20);
-      })
-  }
 
   return (
     <div className="App bg-skyblue">
@@ -61,7 +64,7 @@ function App() {
               <div className="pt-6 space-y-4">
                 <blockquote>
                   <p className="text-lg font-semibold">
-                    {capitalizeFirstLetter(pokemon['name'])}
+                    #{pokemon['id'] } {capitalizeFirstLetter(pokemon['name'])}
                   </p>
 
                 </blockquote>
