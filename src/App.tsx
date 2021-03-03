@@ -1,82 +1,101 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from './Pokemonlogo.png';
 import './App.css';
+import axios from 'axios';
+import './Services/HelperClasses';
+import { capitalizeFirstLetter } from './Services/HelperClasses';
 
 function App() {
+  let [sprite, setSprite] = useState("");
+  let [allPokemon, setAllPokemon] = useState([]);
+  let [pokemonCount, setPokemonCount] = useState(0);
+  let [offset, setOffset] = useState(0);
+
+  useEffect(() => {
+    if(offset === 0){
+    axios.get(`https://pokeapi.co/api/v2/pokemon`)
+      .then(res => {
+        setAllPokemon(res.data.results);
+        setPokemonCount(res.data.count);
+        setOffset(20);
+      })
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
+
+  function handleScroll() {
+    if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight) return;
+    axios.get(`https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${offset}`)
+      .then(res => {
+        setAllPokemon(allPokemon.concat(res.data.results));
+        setOffset(offset+20);
+      })
+  }
+
   return (
     <div className="App">
-      {/* <header className="App-header">
+      <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-      </header> */}
-      {/* <div className="grid grid-cols-3 gap-4"> */}
-      {/* <figure className="bg-gray-100 rounded-xl p-8">
-        <img className="w-32 h-32 rounded-full mx-auto" src={logo} alt="" width="384" height="512"/>
-        <div className="pt-6 space-y-4">
-          <blockquote>
-            <p className="text-lg font-semibold">
-              “Tailwind CSS is the only framework that I've seen scale
-              on large teams. It’s easy to customize, adapts to any design,
-              and the build size is tiny.”
-            </p>
-          </blockquote>
-          <figcaption className="font-medium">
-            <div>
-              Sarah Dayan
-            </div>
-            <div>
-              Staff Engineer, Algolia
-            </div>
-          </figcaption>
-        </div>
-      </figure>
-      <figure className="bg-gray-100 rounded-xl p-8">
-        <img className="w-32 h-32 rounded-full mx-auto" src={logo} alt="" width="384" height="512"/>
-        <div className="pt-6 space-y-4">
-          <blockquote>
-            <p className="text-lg font-semibold">
-              “Tailwind CSS is the only framework that I've seen scale
-              on large teams. It’s easy to customize, adapts to any design,
-              and the build size is tiny.”
-            </p>
-          </blockquote>
-          <figcaption className="font-medium">
-            <div>
-              Sarah Dayan
-            </div>
-            <div>
-              Staff Engineer, Algolia
-            </div>
-          </figcaption>
-        </div>
-      </figure>
-      <figure className="bg-gray-100 rounded-xl p-8">
+        <h1>The Pokédex of the future</h1>
+      </header>
+      <div id="scrollableDiv" className="grid grid-flow-row grid-cols-6 gap-4 md:grid-cols-4 sm:grid-cols-2 xs:grid-cols-1">
 
-        <img className="w-32 h-32 rounded-full mx-auto" src={logo} alt="" width="384" height="512"/>
-        <div className="pt-6 space-y-4">
-          <blockquote>
-            <p className="text-lg font-semibold">
-              “Tailwind CSS is the only framework that I've seen scale
-              on large teams. It’s easy to customize, adapts to any design,
-              and the build size is tiny.”
+          {allPokemon.map((pokemon, key) => {
+            return (<figure className="bg-gray-100 rounded-xl p-8" key={key}>
+              <img className="w-32 h-32 rounded-full mx-auto" src={logo} alt="" width="384" height="512" />
+              <div className="pt-6 space-y-4">
+                <blockquote>
+                  <p className="text-lg font-semibold">
+                    {capitalizeFirstLetter(pokemon['name'])}
+                  </p>
+
+                </blockquote>
+                <figcaption className="font-medium">
+                  <div>
+                    {pokemon['url']}
+                  </div>
+                  <div>
+                  </div>
+                </figcaption>
+              </div>
+            </figure>)
+          })}
+      </div>
+
+      {/* 
+        {allPokemon.map((pokemon, key) => {
+          return (<figure className="bg-gray-100 rounded-xl p-8" key={key}>
+          <img className="w-32 h-32 rounded-full mx-auto" src={logo} alt="" width="384" height="512" />
+          <div className="pt-6 space-y-4">
+            <blockquote>
+              <p className="text-lg font-semibold">
+                {capitalizeFirstLetter(pokemon['name'])}
             </p>
-          </blockquote>
-          <figcaption className="font-medium">
-            <div>
-              Sarah Dayan
+            
+            </blockquote>
+            <figcaption className="font-medium">
+              <div>
+              {pokemon['url']}
             </div>
-            <div>
-              Staff Engineer, Algolia
+              <div>
             </div>
-          </figcaption>
-        </div>
-      </figure> */}
-      <div className="min-h-screen  py-6 flex flex-col justify-center sm:py-12">
+            </figcaption>
+          </div>
+        </figure>)
+})}
+         */}
+
+      {/* <div className="min-h-screen  py-6 flex flex-col justify-center sm:py-12">
         <div className="relative py-3 sm:max-w-xl sm:mx-auto">
           <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-light-blue-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
           <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
             <div className="max-w-md mx-auto">
               <div>
-                <img src={logo} className="h-7 sm:h-8" />
+                <img src={sprite} className="h-7 sm:h-8" />
               </div>
               <div className="divide-y divide-gray-200">
                 <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
@@ -125,10 +144,9 @@ function App() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
     </div>
-    // </div>
   );
 }
 
