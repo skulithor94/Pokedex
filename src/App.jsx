@@ -61,11 +61,11 @@ function App() {
         <h1>The Pokédex of the future</h1>
       </header>
       <div id="scrollableDiv" className="grid grid-flow-row grid-cols-6 gap-5 md:grid-cols-4 sm:grid-cols-2 xs:grid-cols-1">
-
+      {/* pokemon['sprites']['front_default'] */}
         {currentPokemonListDetail.map((pokemon, key) => {
           return (
             <figure className="bg-green-light rounded-xl p-8 transform transition duration-500 hover:scale-110 border-2 border-gray-600" key={key} id={pokemon['id']} onClick={handleHoverFigure}>
-              <img className="w-32 h-32 rounded-full mx-auto" src={pokemon['sprites']['front_default']} alt="" width="384" height="512" />
+              <img className="w-32 h-32 rounded-full mx-auto" src={`./pokemon-images/${pokemon['id']}.png`} alt="" width="384" height="512" />
               <div className="pt-6 space-y-4">
                 <blockquote>
                   <p className="text-lg font-semibold">
