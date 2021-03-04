@@ -47,7 +47,12 @@ function App() {
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [handleScroll]);
+}, [handleScroll]);
+
+  function handleHoverFigure(e, data){
+    var audio = new Audio(`./cries-old/${e.currentTarget.id}.mp3`);
+    audio.play();
+  }
 
   return (
     <div className="App bg-skyblue">
@@ -59,7 +64,7 @@ function App() {
 
         {currentPokemonListDetail.map((pokemon, key) => {
           return (
-            <figure className="bg-green-light rounded-xl p-8 transform transition duration-500 hover:scale-110 border-2 border-gray-600" key={key}>
+            <figure className="bg-green-light rounded-xl p-8 transform transition duration-500 hover:scale-110 border-2 border-gray-600" key={key} id={pokemon['id']} onClick={handleHoverFigure}>
               <img className="w-32 h-32 rounded-full mx-auto" src={pokemon['sprites']['front_default']} alt="" width="384" height="512" />
               <div className="pt-6 space-y-4">
                 <blockquote>
