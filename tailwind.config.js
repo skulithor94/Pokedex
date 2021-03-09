@@ -16,14 +16,17 @@ module.exports = {
         gray: colors.trueGray,
         indigo: colors.indigo,
         red: colors.rose,
-        yellow: colors.amber,
+        yellow:{ 
+          DEFAULT:colors.amber,
+          mustard: '#ffcb63'
+        },
         pink: colors.pink,
         green: {
           light: '#d3ff89'
         }, 
         skyblue: {
           DEFAULT: '#46cfea'
-        }
+        },
       },
     },
   },

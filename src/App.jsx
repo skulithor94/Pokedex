@@ -4,6 +4,7 @@ import './App.css';
 import axios from 'axios';
 import './Services/HelperClasses';
 import PokemonCard from './Components/PokemonCard';
+import PokemonDetailModal from './Components/PokemonDetailModal';
 
 const offsetConst = 32;
 const limit = 32;
@@ -32,8 +33,8 @@ function App() {
         setAllPokemon(allPokemon.concat(res.data.results));
         setCurrentPokemonList(res.data.results);
         setOffset(offset + offsetConst);
-      })  
-    }, [allPokemon, offset]);
+      })
+  }, [allPokemon, offset]);
 
   useEffect(() => {
     (async function getPokemon() {
@@ -47,7 +48,7 @@ function App() {
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-}, [handleScroll]);
+  }, [handleScroll]);
 
   return (
     <div className="App bg-skyblue">
@@ -58,8 +59,10 @@ function App() {
       <div id="scrollableDiv" className="grid grid-flow-row grid-cols-6 gap-5 md:grid-cols-4 sm:grid-cols-2 xs:grid-cols-1">
         {currentPokemonListDetail.map((pokemon, key) => {
           return (
-            <PokemonCard pokemon={pokemon} key={key}></PokemonCard>
-            )
+            <div>
+              <PokemonCard pokemon={pokemon} key={key}></PokemonCard>
+            </div>
+          )
         })}
       </div>
     </div>
