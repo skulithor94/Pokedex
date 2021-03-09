@@ -4,7 +4,6 @@ import './App.css';
 import axios from 'axios';
 import './Services/HelperClasses';
 import PokemonCard from './Components/PokemonCard';
-import PokemonDetailModal from './Components/PokemonDetailModal';
 
 const offsetConst = 32;
 const limit = 32;
@@ -59,9 +58,7 @@ function App() {
       <div id="scrollableDiv" className="grid grid-flow-row grid-cols-6 gap-5 md:grid-cols-4 sm:grid-cols-2 xs:grid-cols-1">
         {currentPokemonListDetail.map((pokemon, key) => {
           return (
-            <div>
-              <PokemonCard pokemon={pokemon} key={key}></PokemonCard>
-            </div>
+            <PokemonCard pokemon={pokemon} key={key}></PokemonCard>
           )
         })}
       </div>

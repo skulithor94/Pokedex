@@ -1,29 +1,17 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState } from 'react';
 import { capitalizeFirstLetter } from '../Services/HelperClasses';
 import PokemonDetailModal from './PokemonDetailModal';
 import PokemonDetailIsOpenContext from './PokemonDetailIsOpenContext';
 
 export default function PokemonCard(props) {
-
     let [isOpen, setIsOpen] = useState(false);
-    const value = { isOpen, setIsOpen };
+    let value = { isOpen, setIsOpen };
+    let pokemon = props.pokemon;
 
     function handleHoverFigure(e, data) {
-        var audio = new Audio(`./cries-old/${e.currentTarget.id}.mp3`);
         setIsOpen(true);
-        // console.log("here")
-        // audio.play();
-        // const modal = document.querySelector('.modal')
-        // modal.classList.toggle('opacity-0')
-        // modal.classList.toggle('pointer-events-none')
-
     }
 
-    // useEffect(() => {
-
-    // }, [isModalOpen]);
-
-    let pokemon = props.pokemon;
     return (
         <div>
             <PokemonDetailIsOpenContext.Provider value={value}>
