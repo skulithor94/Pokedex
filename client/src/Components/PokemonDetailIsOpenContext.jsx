@@ -6,4 +6,4 @@ const PokemonDetailIsOpenContext = React.createContext({
   setIsOpen: () => {}
 });
 
-export default PokemonDetailIsOpenContext;
+export default PokemonDetailIsOpenContext; 
