@@ -29,6 +29,9 @@ export default function PokemonDetailModal(props) {
             barGap: null
         });
 
+
+
+        
         // var audio = new Audio(`./cries-old/${pokemon['id']}.mp3`);
         wavesurfer.load(`./cries-old/${pokemon['id']}.mp3`);
         wavesurfer.play();
