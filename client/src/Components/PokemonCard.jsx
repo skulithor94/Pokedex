@@ -12,6 +12,7 @@ export default function PokemonCard(props) {
         setIsOpen(true);
     }
 
+    
     return (
         <div>
             <PokemonDetailIsOpenContext.Provider value={value}>
